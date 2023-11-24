@@ -25,11 +25,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:padding="10dp"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:maxLines="1"
-        android:ellipsize="end"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/user_profile"
@@ -40,11 +40,11 @@
         android:id="@+id/user_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:layout_marginVertical="20dp"
         android:ellipsize="end"
         android:maxLines="2"
         android:padding="10dp"
-        android:layout_margin="10dp"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,6 +63,16 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/user_address" />
+
+    <ProgressBar
+        android:id="@+id/album_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/my_album_tv" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/user_album_recycler"

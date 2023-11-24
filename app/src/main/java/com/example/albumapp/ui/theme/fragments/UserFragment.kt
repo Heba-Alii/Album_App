@@ -36,22 +36,6 @@ class UserFragment : Fragment() {
 
     }
 
-    private fun getUserAlbum() {
-        val albumsAdapter = AlbumsAdapter()
-        lifecycleScope.launch {
-            albumViewModel.albums.collect {
-                when (it) {
-                    is DataState.Failure -> it.throwable.message
-                    is DataState.Loading -> "load"
-                    is DataState.Success -> {
-                        albumsAdapter.submitList(it.data)
-                        binding.userAlbumRecycler.adapter = albumsAdapter
-                    }
-                    null -> null
-                }
-            }
-        }
-    }
 
     private fun getUserData() {
         lifecycleScope.launch {
@@ -63,6 +47,24 @@ class UserFragment : Fragment() {
                         albumViewModel.getAlbums(it.data.random().id!!)
                         binding.userName.text = it.data.random().name
                         binding.userAddress.text = it.data.random().address?.city
+                    }
+                    null -> null
+                }
+            }
+        }
+    }
+
+    private fun getUserAlbum() {
+        val albumsAdapter = AlbumsAdapter()
+        lifecycleScope.launch {
+            albumViewModel.albums.collect {
+                when (it) {
+                    is DataState.Failure -> it.throwable.message
+                    is DataState.Loading -> binding.albumProgress.visibility = View.VISIBLE
+                    is DataState.Success -> {
+                        binding.albumProgress.visibility = View.GONE
+                        albumsAdapter.submitList(it.data)
+                        binding.userAlbumRecycler.adapter = albumsAdapter
                     }
                     null -> null
                 }
