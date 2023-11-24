@@ -1,4 +1,8 @@
 package com.example.albumapp.domain.domainRepo.photosRepo
 
-class PhotosRepo {
+import com.example.albumapp.domain.model.photos.PhotosResponse
+import kotlinx.coroutines.flow.Flow
+
+interface PhotosRepo {
+    suspend fun getPhotosFromRemote(): Flow<PhotosResponse>
 }

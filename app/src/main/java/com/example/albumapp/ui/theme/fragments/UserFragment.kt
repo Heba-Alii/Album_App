@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.albumapp.databinding.FragmentUserBinding
-import com.example.albumapp.ui.theme.viewmodel.MainViewModel
+import com.example.albumapp.ui.theme.adapters.AlbumsAdapter
+import com.example.albumapp.ui.theme.viewmodel.AlbumViewModel
 import com.example.albumapp.ui.util.DataState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class UserFragment : Fragment() {
     lateinit var binding: FragmentUserBinding
-    val mainViewModel: MainViewModel by viewModels()
+    private val albumViewModel: AlbumViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,18 +28,39 @@ class UserFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainViewModel.getUsers()
+
+        albumViewModel.getUsers()
         getUserData()
+        getUserAlbum()
+
 
     }
 
-    private fun getUserData() {
+    private fun getUserAlbum() {
+        val albumsAdapter = AlbumsAdapter()
         lifecycleScope.launch {
-            mainViewModel.users.collect {
+            albumViewModel.albums.collect {
                 when (it) {
                     is DataState.Failure -> it.throwable.message
                     is DataState.Loading -> "load"
                     is DataState.Success -> {
+                        albumsAdapter.submitList(it.data)
+                        binding.userAlbumRecycler.adapter = albumsAdapter
+                    }
+                    null -> null
+                }
+            }
+        }
+    }
+
+    private fun getUserData() {
+        lifecycleScope.launch {
+            albumViewModel.users.collect {
+                when (it) {
+                    is DataState.Failure -> it.throwable.message
+                    is DataState.Loading -> "load"
+                    is DataState.Success -> {
+                        albumViewModel.getAlbums(it.data.random().id!!)
                         binding.userName.text = it.data.random().name
                         binding.userAddress.text = it.data.random().address?.city
                     }

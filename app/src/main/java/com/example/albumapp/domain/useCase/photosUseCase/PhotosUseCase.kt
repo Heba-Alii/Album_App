@@ -1,4 +1,8 @@
 package com.example.albumapp.domain.useCase.photosUseCase
 
-class PhotosUseCase {
+import com.example.albumapp.domain.domainRepo.photosRepo.PhotosRepo
+
+class PhotosUseCase(private val photosRepo: PhotosRepo) {
+    suspend fun getPhotos() = photosRepo.getPhotosFromRemote()
+
 }
