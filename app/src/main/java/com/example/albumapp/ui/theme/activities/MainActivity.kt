@@ -15,12 +15,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initSubView()
     }
 
-    private fun initSubView() {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.fragment_container, userFragment)
-        transaction.commit()
-    }
+
 }
