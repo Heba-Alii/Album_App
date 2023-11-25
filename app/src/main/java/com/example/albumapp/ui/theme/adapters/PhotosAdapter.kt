@@ -1,12 +1,10 @@
 package com.example.albumapp.ui.theme.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.albumapp.R
 import com.example.albumapp.databinding.PhotosItemBinding
 import com.example.albumapp.domain.model.photos.PhotosResponseItem
 

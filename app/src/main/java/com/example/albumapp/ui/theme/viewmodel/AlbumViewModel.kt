@@ -1,16 +1,17 @@
 package com.example.albumapp.ui.theme.viewmodel
 
-import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.albumapp.domain.model.album.AlbumResponse
-import com.example.albumapp.domain.model.photos.PhotosResponse
 import com.example.albumapp.domain.model.user.UsersResponse
 import com.example.albumapp.domain.useCase.albumsUseCase.AlbumsUseCase
 import com.example.albumapp.domain.useCase.usersUseCase.UsersUseCase
 import com.example.albumapp.ui.util.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

@@ -1,8 +1,7 @@
 package com.example.albumapp.ui.theme.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.albumapp.R
+import androidx.appcompat.app.AppCompatActivity
 import com.example.albumapp.databinding.ActivityMainBinding
 import com.example.albumapp.ui.theme.fragments.UserFragment
 import dagger.hilt.android.AndroidEntryPoint

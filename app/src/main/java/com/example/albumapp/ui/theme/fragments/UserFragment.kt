@@ -1,10 +1,10 @@
 package com.example.albumapp.ui.theme.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 class UserFragment : Fragment(), AlbumID {
     lateinit var binding: FragmentUserBinding
     private val albumViewModel: AlbumViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,9 +47,12 @@ class UserFragment : Fragment(), AlbumID {
                     is DataState.Failure -> it.throwable.message
                     is DataState.Loading -> "load"
                     is DataState.Success -> {
+
                         albumViewModel.getAlbums(it.data.random().id!!)
                         binding.userName.text = it.data.random().name
-                        binding.userAddress.text = it.data.random().address.toString()
+                        val fullAddress =
+                            "${it.data.random().address?.city},${it.data.random().address?.street},${it.data.random().address?.suite},${it.data.random().address?.zipcode}"
+                        binding.userAddress.text = fullAddress
                     }
                     null -> null
                 }

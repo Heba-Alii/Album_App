@@ -2,14 +2,15 @@ package com.example.albumapp.ui.theme.fragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.albumapp.R
 import com.example.albumapp.databinding.FragmentAlbumBinding
-import com.example.albumapp.ui.theme.adapters.AlbumID
 import com.example.albumapp.ui.theme.adapters.PhotosAdapter
 import com.example.albumapp.ui.theme.viewmodel.PhotosViewModel
 import com.example.albumapp.ui.util.DataState
@@ -20,29 +21,34 @@ import kotlinx.coroutines.launch
 class AlbumFragment : Fragment() {
     lateinit var binding: FragmentAlbumBinding
     private val photosViewModel: PhotosViewModel by viewModels()
-
+    lateinit var photosAdapter: PhotosAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAlbumBinding.inflate(inflater, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_album, container, false)
+        binding.searchViewModel = photosViewModel
+        binding.lifecycleOwner = this
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        photosAdapter = PhotosAdapter()
+        binding.albumRecycler.adapter = photosAdapter
+
         arguments.let {
             val id = it?.getInt(Constants.KEY_NAME)
             photosViewModel.getPhotos(id!!)
             Log.e("TAG", "onViewCreated: $it")
         }
         getUserPhotos()
-
-
+        searchPhotos()
+        getFilteredPhoto()
     }
 
     private fun getUserPhotos() {
-        val photosAdapter = PhotosAdapter()
         lifecycleScope.launch {
             photosViewModel.photos.collect {
                 when (it) {
@@ -51,11 +57,25 @@ class AlbumFragment : Fragment() {
                     is DataState.Success -> {
                         binding.photosProgress.visibility = View.GONE
                         photosAdapter.submitList(it.data)
-                        binding.albumRecycler.adapter = photosAdapter
                     }
                     null -> null
                 }
             }
         }
     }
+
+    private fun searchPhotos() {
+        photosViewModel.search.observe(this) {
+
+            photosViewModel.searchPhotos(it)
+        }
+    }
+
+    private fun getFilteredPhoto() {
+        photosViewModel.filteredPhotos.observe(this) {
+            photosAdapter.submitList(it)
+        }
+    }
+
+
 }

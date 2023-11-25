@@ -1,6 +1,5 @@
 package com.example.albumapp.ui.di
 
-import com.example.albumapp.data.dataSource.remote.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -4,5 +4,5 @@ import com.example.albumapp.domain.model.photos.PhotosResponse
 import kotlinx.coroutines.flow.Flow
 
 interface PhotosRepo {
-    suspend fun getPhotosFromRemote(albumId:Int): Flow<PhotosResponse>
+    suspend fun getPhotosFromRemote(albumId: Int): Flow<PhotosResponse>
 }
