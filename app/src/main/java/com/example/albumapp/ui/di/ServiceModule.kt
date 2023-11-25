@@ -1,11 +1,14 @@
 package com.example.albumapp.ui.di
 
 import com.example.albumapp.data.dataRepo.albumRepo.AlbumRepoImpl
+import com.example.albumapp.data.dataRepo.photosRepo.PhotosRepoImpl
 import com.example.albumapp.data.dataRepo.userRepo.UserRepoImpl
 import com.example.albumapp.data.dataSource.remote.ApiService
 import com.example.albumapp.domain.domainRepo.albumRepo.AlbumRepo
+import com.example.albumapp.domain.domainRepo.photosRepo.PhotosRepo
 import com.example.albumapp.domain.domainRepo.userRepo.UserRepo
 import com.example.albumapp.domain.useCase.albumsUseCase.AlbumsUseCase
+import com.example.albumapp.domain.useCase.photosUseCase.PhotosUseCase
 import com.example.albumapp.domain.useCase.usersUseCase.UsersUseCase
 import dagger.Module
 import dagger.Provides
@@ -41,5 +44,15 @@ object ServiceModule {
     @Provides
     fun provideAlbumUseCase(albumRepo: AlbumRepo): AlbumsUseCase {
         return AlbumsUseCase(albumRepo)
+    }
+
+    @Provides
+    fun providePhotoRepo(apiService: ApiService): PhotosRepo {
+        return PhotosRepoImpl(apiService)
+    }
+
+    @Provides
+    fun providePhotosUseCase(photosRepo: PhotosRepo): PhotosUseCase {
+        return PhotosUseCase(photosRepo)
     }
 }

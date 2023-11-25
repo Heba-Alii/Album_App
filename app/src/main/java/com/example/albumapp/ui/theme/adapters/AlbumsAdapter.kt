@@ -8,28 +8,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.albumapp.databinding.AlbumItemBinding
 import com.example.albumapp.domain.model.album.AlbumResponseItem
 
-class AlbumsAdapter() :
+class AlbumsAdapter(private val albumID: AlbumID) :
     ListAdapter<AlbumResponseItem, AlbumsAdapter.ViewHolder>(AlbumDiffCallBack()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemBinding =
             AlbumItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(itemBinding)
+        return ViewHolder(itemBinding, albumID)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
-
     }
 
-    class ViewHolder(private val itemBinding: AlbumItemBinding) :
+    class ViewHolder(private val itemBinding: AlbumItemBinding, private val albumID: AlbumID) :
         RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(albumResponseItem: AlbumResponseItem) {
             itemBinding.apply {
                 albumNameTv.text = albumResponseItem.title
                 albumCv.setOnClickListener {
-
+                    albumID.getAlbumId(albumResponseItem.id)
                 }
             }
         }

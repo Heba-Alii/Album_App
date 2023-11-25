@@ -23,8 +23,7 @@ class AlbumViewModel @Inject constructor(
     var users: StateFlow<DataState<UsersResponse>?> = _users
     private val _albums: MutableStateFlow<DataState<AlbumResponse>?> = MutableStateFlow(null)
     var albums: StateFlow<DataState<AlbumResponse>?> = _albums
-    private val _photos: MutableStateFlow<DataState<PhotosResponse>?> = MutableStateFlow(null)
-    var photos: StateFlow<DataState<PhotosResponse>?> = _photos
+
 
     fun getUsers() {
         viewModelScope.launch {

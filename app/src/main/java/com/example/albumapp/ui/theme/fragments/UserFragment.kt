@@ -7,7 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.albumapp.R
 import com.example.albumapp.databinding.FragmentUserBinding
+import com.example.albumapp.ui.theme.adapters.AlbumID
 import com.example.albumapp.ui.theme.adapters.AlbumsAdapter
 import com.example.albumapp.ui.theme.viewmodel.AlbumViewModel
 import com.example.albumapp.ui.util.DataState
@@ -15,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class UserFragment : Fragment() {
+class UserFragment : Fragment(), AlbumID {
     lateinit var binding: FragmentUserBinding
     private val albumViewModel: AlbumViewModel by viewModels()
     override fun onCreateView(
@@ -28,7 +31,6 @@ class UserFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         albumViewModel.getUsers()
         getUserData()
         getUserAlbum()
@@ -46,7 +48,7 @@ class UserFragment : Fragment() {
                     is DataState.Success -> {
                         albumViewModel.getAlbums(it.data.random().id!!)
                         binding.userName.text = it.data.random().name
-                        binding.userAddress.text = it.data.random().address?.city
+                        binding.userAddress.text = it.data.random().address.toString()
                     }
                     null -> null
                 }
@@ -55,7 +57,7 @@ class UserFragment : Fragment() {
     }
 
     private fun getUserAlbum() {
-        val albumsAdapter = AlbumsAdapter()
+        val albumsAdapter = AlbumsAdapter(this)
         lifecycleScope.launch {
             albumViewModel.albums.collect {
                 when (it) {
@@ -70,6 +72,12 @@ class UserFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun getAlbumId(albumId: Int?) {
+        val bundle = Bundle()
+        bundle.putInt(Constants.KEY_NAME, albumId!!)
+        findNavController().navigate(R.id.action_userFragment_to_albumFragment, bundle)
     }
 
 }

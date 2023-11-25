@@ -9,8 +9,10 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 class PhotosRepoImpl(private val apiService: ApiService) : PhotosRepo {
-    override suspend fun getPhotosFromRemote(): Flow<PhotosResponse> {
-        TODO("Not yet implemented")
+    override suspend fun getPhotosFromRemote(albumId:Int): Flow<PhotosResponse> {
+        return flow {
+            emit(apiService.getPhotos(albumId))
+        }.flowOn(Dispatchers.IO)
     }
 
 }
