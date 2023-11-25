@@ -20,6 +20,7 @@
             android:id="@+id/album_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/search"
             android:layout_margin="10dp"
             android:padding="15dp"
             android:text="@={searchViewModel.search}"
