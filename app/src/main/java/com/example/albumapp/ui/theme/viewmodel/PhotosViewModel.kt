@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import retrofit2.http.Query
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,9 +23,11 @@ class PhotosViewModel @Inject constructor(private val photosUseCase: PhotosUseCa
     var photos: StateFlow<DataState<PhotosResponse>?> = _photos
     private val _filteredPhotos: MutableLiveData<List<PhotosResponseItem>> = MutableLiveData()
     var filteredPhotos: LiveData<List<PhotosResponseItem>> = _filteredPhotos
-    private val _search: MutableLiveData<String> = MutableLiveData()
-    var search: MutableLiveData<String> = _search
-    private var allPhotoBeforeFiltered: PhotosResponse? = null
+    private val _allPhotos = MutableLiveData<List<PhotosResponseItem>>()
+
+    //    private val _search: MutableLiveData<String> = MutableLiveData()
+//    var search: MutableLiveData<String> = _search
+//    private var allPhotoBeforeFiltered: PhotosResponse? = null
     fun getPhotos(albumId: Int) {
         viewModelScope.launch {
             photosUseCase.getPhotos(albumId).onStart {
@@ -35,17 +38,27 @@ class PhotosViewModel @Inject constructor(private val photosUseCase: PhotosUseCa
             }.collect {
                 _photos.emit(DataState.Loading(false))
                 _photos.emit(DataState.Success(it))
-                allPhotoBeforeFiltered = it
+                // allPhotoBeforeFiltered = it
+                _filteredPhotos.value = it
+                _allPhotos.value = it
             }
 
         }
     }
 
 
+    //    fun searchPhotos(query: String) {
+//        val filteredList = allPhotoBeforeFiltered?.filter { image ->
+//            image!!.title!!.contains(query, ignoreCase = true)
+//        }
+//        _filteredPhotos.value = filteredList!!
+//    }
     fun searchPhotos(query: String) {
-        val filteredList = allPhotoBeforeFiltered?.filter { image ->
-            image!!.title!!.contains(query, ignoreCase = true)
-        }
-        _filteredPhotos.value = filteredList!!
+        val allPhotos = _allPhotos.value ?: emptyList()
+        val filteredList =
+            allPhotos.filter { photo -> photo.title!!.contains(query, ignoreCase = true) }
+        _filteredPhotos.value = filteredList
+
     }
+
 }

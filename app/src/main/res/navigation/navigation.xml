@@ -9,14 +9,19 @@
         android:id="@+id/userFragment"
         android:name="com.example.albumapp.ui.theme.fragments.UserFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_user" >
+        tools:layout="@layout/fragment_user">
         <action
             android:id="@+id/action_userFragment_to_albumFragment"
-            app:destination="@id/albumFragment" />
+            app:destination="@id/albumFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@anim/custom_animation" />
     </fragment>
     <fragment
         android:id="@+id/albumFragment"
         android:name="com.example.albumapp.ui.theme.fragments.AlbumFragment"
         android:label="fragment_album"
-        tools:layout="@layout/fragment_album" />
+        tools:layout="@layout/fragment_album">
+    </fragment>
 </navigation>

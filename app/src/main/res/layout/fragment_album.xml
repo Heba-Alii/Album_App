@@ -16,14 +16,13 @@
         android:background="@color/lavender"
         tools:context=".ui.theme.fragments.AlbumFragment">
 
-        <EditText
+        <SearchView
             android:id="@+id/album_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/search"
             android:layout_margin="10dp"
             android:padding="15dp"
-            android:text="@={searchViewModel.search}"
             android:background="@drawable/search_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
