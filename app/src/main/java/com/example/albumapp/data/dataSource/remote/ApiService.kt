@@ -12,7 +12,6 @@ interface ApiService {
         const val albums = "albums"
         const val photos = "photos"
     }
-
     @GET(users)
     suspend fun getUser(): UsersResponse
 
