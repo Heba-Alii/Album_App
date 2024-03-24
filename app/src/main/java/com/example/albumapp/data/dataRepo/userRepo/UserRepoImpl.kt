@@ -10,5 +10,4 @@ class UserRepoImpl(private val apiService: ApiService) : UserRepo {
     override suspend fun getUserFromRemote() = flow {
         emit(apiService.getUser())
     }.flowOn(Dispatchers.IO)
-
 }
